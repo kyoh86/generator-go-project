@@ -8,7 +8,7 @@ First, install [Yeoman](http://yeoman.io) and generator-go-project using [npm](h
 
 ```bash
 npm install -g yo
-npm install -g @kyoh86/generator-go-project
+npm install -g generator-go-project
 ```
 
 Then generate your new project:
