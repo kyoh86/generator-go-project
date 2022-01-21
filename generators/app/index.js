@@ -2,7 +2,6 @@
 
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
-const yosay = require("yosay");
 const path = require("path");
 const license = require("./license");
 
@@ -37,7 +36,7 @@ module.exports = class extends Generator {
 
   async prompting() {
     // Have Yeoman greet the user.
-    this.log(yosay(`Welcome to the ${chalk.red("go-project")} generator!`));
+    this.log(`Welcome to the ${chalk.red("go-project")} generator!`);
 
     const answers = await this.prompt([
       {
@@ -52,9 +51,7 @@ module.exports = class extends Generator {
         message: "Project author GitHub account",
         type: "input",
         required: true,
-        default: await this.user.github.username().catch(() => {
-          return undefined;
-        }),
+        default: await this.user.github.username().catch(() => undefined),
       },
       {
         name: "description",
@@ -101,7 +98,7 @@ module.exports = class extends Generator {
     const badgeId = encodeURIComponent(answers.license).replace("-", "--");
     const badge = `http://img.shields.io/badge/license-${badgeId}-blue.svg`;
     this.answers = Object.assign(answers, {
-      license: Object.assign(license.get(answers.license), { badge: badge }),
+      license: Object.assign(license.get(answers.license), { badge }),
     });
   }
 
@@ -115,7 +112,7 @@ module.exports = class extends Generator {
         this.answers.name
       )
     );
-    let files = [
+    const files = [
       ["README.md.ejs", "README.md"],
       ["gitignore.ejs", ".gitignore"],
       ["Makefile.ejs", "Makefile"],
@@ -136,7 +133,7 @@ module.exports = class extends Generator {
         : []),
     ];
 
-    for (let w of files) {
+    for (const w of files) {
       if (w[0].endsWith(".ejs")) {
         this.fs.copyTpl(
           this.templatePath(w[0]),

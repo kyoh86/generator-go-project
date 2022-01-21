@@ -8,18 +8,16 @@ const fs = require("fs");
 const suffix = ".tmpl";
 
 async function serialize(location) {
-  let dict = {};
+  const dict = {};
   await Promise.all(
     [...simpleLics].map((id) => {
-      let name = path.join(location, id.toLowerCase() + suffix);
+      const name = path.join(location, id.toLowerCase() + suffix);
 
       return fs.promises
         .readFile(name, { encoding: "utf-8" })
         .then((content) => {
           console.info("found: " + id);
-          dict[id] = Object.assign({}, fullLics[id], {
-            licenseTemplate: content,
-          });
+          dict[id] = { ...fullLics[id], licenseTemplate: content };
         })
         .catch((e) => {
           console.warn(e.toString());
